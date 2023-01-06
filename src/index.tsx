@@ -1,16 +1,15 @@
-import ReactDOM from 'react-dom/client'
+import ReactDOM from "react-dom/client";
 import "./styles/tailwind.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import React from 'react';
+import React from "react";
+import AppRoutes from "./routes/Routes";
+import { Provider } from "react-redux";
+import { persistor, store } from "./store/modules";
+import { PersistGate } from "redux-persist/integration/react";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <AppRoutes />
+    </PersistGate>
+  </Provider>
+);
