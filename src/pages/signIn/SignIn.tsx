@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/modules/hooks";
 import { loginUser } from "../../store/modules/users/UsersSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const isLogged = useAppSelector((state) => state.users);
+  const changeLog = useAppSelector((state) => state.users.changeLog);
+  const logCheck = useAppSelector((state) => state.users.logged);
+  const isLogged = sessionStorage.getItem("logged");
 
   const dispatch = useAppDispatch();
 
@@ -22,8 +26,15 @@ function SignIn() {
   }
 
   useEffect(() => {
-    console.log(isLogged);
-  }, [isLogged]);
+    if (isLogged) navigate("/home");
+  }, []);
+
+  useEffect(() => {
+    if (logCheck) {
+      sessionStorage.setItem("logged", email);
+      navigate("/home");
+    }
+  }, [logCheck]);
 
   return (
     <div className=" flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

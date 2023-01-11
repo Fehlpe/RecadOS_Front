@@ -1,13 +1,19 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../store/modules/hooks";
-import { addUser } from "../../store/modules/users/UsersSlice";
+import { useAppDispatch, useAppSelector } from "../../store/modules/hooks";
+import { addUser, resetChangeLog } from "../../store/modules/users/UsersSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+
+  const navigate = useNavigate();
+
+  let changeLog = useAppSelector((state) => state.users.changeLog);
+  const isLogged = sessionStorage.getItem("logged");
 
   const dispatch = useAppDispatch();
 
@@ -20,6 +26,17 @@ function SignUp() {
       })
     );
   }
+
+  useEffect(() => {
+    if (isLogged) navigate("/home");
+  }, []);
+
+  useEffect(() => {
+    if (changeLog) {
+      dispatch(resetChangeLog());
+      navigate("/");
+    }
+  }, [changeLog]);
 
   return (
     <div className=" flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
