@@ -1,6 +1,6 @@
 export default interface Note {
-  userId: string;
-  id: number | string;
+  userEmail: string;
+  id?: string;
   title: string;
-  description: number;
+  description: string;
 }
