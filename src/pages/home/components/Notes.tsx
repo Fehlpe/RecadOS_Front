@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/modules/hooks";
-import {
-  deleteNote,
-  getAllUserNotes,
-} from "../../../store/modules/notes/NotesSlice";
-import Note from "../../../utils/interfaces/Note";
-import Modal from "./Modal";
+import { useState } from "react";
+import { useAppSelector } from "../../../store/modules/hooks";
+import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModal";
 
 interface NotesProps {
   loggedUser: string;
 }
 
 const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
-  const [showModal, setShowModal] = useState(false);
-
-  const dispatch = useAppDispatch();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [currentDeleteId, setCurrentDeleteId] = useState("");
+  const [currentEditId, setCurrentEditId] = useState("");
 
   const userNotes = useAppSelector((state) => state.notes.userNotes);
 
@@ -39,7 +36,12 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
               <div className="flex items-center justify-between text-gray-800 dark:text-gray-100">
                 <p className="text-sm">March 28, 2020</p>
                 <div className="flex items-center justify-between w-24">
-                  <button>
+                  <button
+                    onClick={() => {
+                      setCurrentEditId(value.id!);
+                      setShowEditModal(true);
+                    }}
+                  >
                     <div className="w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-100 dark:text-gray-800 text-white flex items-center justify-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +62,12 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
                     </div>
                   </button>
 
-                  <button onClick={() => setShowModal(true)}>
+                  <button
+                    onClick={() => {
+                      setCurrentDeleteId(value.id!);
+                      setShowDeleteModal(true);
+                    }}
+                  >
                     <div className="w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-100 dark:text-gray-800 text-white flex items-center justify-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -81,11 +88,17 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
                 </div>
               </div>
             </div>
-            <Modal
-              id={value.id!}
+            <DeleteModal
+              id={currentDeleteId}
               loggedUser={loggedUser}
-              isVisible={showModal}
-              onClose={() => setShowModal(false)}
+              isVisible={showDeleteModal}
+              onClose={() => setShowDeleteModal(false)}
+            />
+            <EditModal
+              id={currentEditId}
+              loggedUser={loggedUser}
+              isVisible={showEditModal}
+              onClose={() => setShowEditModal(false)}
             />
           </div>
         );

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/modules/hooks";
 import { getAllUserNotes } from "../../store/modules/notes/NotesSlice";
 import { resetChangeLog } from "../../store/modules/users/UsersSlice";
 import InputNote from "./components/InputNote";
-import Modal from "./components/Modal";
+import Modal from "./components/DeleteModal";
 import NavBar from "./components/NavBar";
 import Notes from "./components/Notes";
 
