@@ -1,4 +1,24 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../store/modules/hooks";
+import { resetLogged } from "../../../store/modules/users/UsersSlice";
+
 const NavBar: React.FC = () => {
+  const logCheck = useAppSelector((state) => state.users.logged);
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    console.log(logCheck);
+    if (!logCheck) navigate("/");
+  }, [logCheck]);
+
+  function removeLoggedUser() {
+    sessionStorage.removeItem("logged");
+    dispatch(resetLogged());
+  }
+
   return (
     <>
       <nav className=" bg-gray-800 border-gray-700 py-2 md:py-4">
@@ -19,7 +39,10 @@ const NavBar: React.FC = () => {
             className="hidden md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0"
             id="navbar-collapse"
           >
-            <button className="p-2 lg:px-4 md:mx-2 font-medium text-red-500 text-center border border-solid border-red-500 rounded hover:bg-red-500 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1">
+            <button
+              onClick={() => removeLoggedUser()}
+              className="p-2 lg:px-4 md:mx-2 font-medium text-red-500 text-center border border-solid border-red-500 rounded hover:bg-red-500 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1"
+            >
               LOGOUT
             </button>
           </div>

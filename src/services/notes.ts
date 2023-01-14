@@ -14,10 +14,10 @@ class NotesDataService {
     return await api.get(`/users/notes?userEmail=${loggedUser}`);
   }
 
-  async update(id: string, title: string, description: string) {
-    return await api.put(`/users/notes/${id}`, {
-      title,
-      description,
+  async update(newNote: any) {
+    return await api.put(`/users/notes/${newNote.id}`, {
+      title: newNote.title,
+      description: newNote.description,
     });
   }
 

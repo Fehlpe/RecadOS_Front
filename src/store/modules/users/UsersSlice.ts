@@ -23,6 +23,9 @@ const UsersSlice = createSlice({
   initialState,
   reducers: {
     resetState: () => initialState,
+    resetLogged: (state) => {
+      state.logged = false;
+    },
     resetChangeLog: (state) => {
       state.changeLog = false;
     },
@@ -41,6 +44,6 @@ const UsersSlice = createSlice({
   },
 });
 
-export const { resetChangeLog, resetState } = UsersSlice.actions;
+export const { resetChangeLog, resetLogged, resetState } = UsersSlice.actions;
 
 export default UsersSlice.reducer;

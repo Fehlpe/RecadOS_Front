@@ -12,7 +12,6 @@ function SignIn() {
 
   const changeLog = useAppSelector((state) => state.users.changeLog);
   const logCheck = useAppSelector((state) => state.users.logged);
-  const isLogged = sessionStorage.getItem("logged");
 
   const dispatch = useAppDispatch();
 
@@ -26,6 +25,7 @@ function SignIn() {
   }
 
   useEffect(() => {
+    const isLogged = sessionStorage.getItem("logged");
     if (isLogged) navigate("/home");
   }, []);
 

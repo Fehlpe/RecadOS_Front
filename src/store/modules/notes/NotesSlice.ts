@@ -16,8 +16,15 @@ export const getAllUserNotes = createAsyncThunk(
   }
 );
 
+export const updateNote = createAsyncThunk(
+  "/user/notes/update",
+  async (newNote: object) => {
+    return NotesInstance.update(newNote);
+  }
+);
+
 export const deleteNote = createAsyncThunk(
-  "users/notes/delete",
+  "/users/notes/delete",
   async (id: string) => {
     return NotesInstance.delete(id);
   }
