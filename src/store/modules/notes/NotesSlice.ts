@@ -55,12 +55,14 @@ interface NoteSliceState {
   userNotes: Note[];
   success: boolean;
   showArchived: boolean;
+  currentMessage: string;
 }
 
 const initialState: NoteSliceState = {
   userNotes: [],
   success: false,
   showArchived: false,
+  currentMessage: "",
 };
 
 const NotesSlice = createSlice({
@@ -71,10 +73,16 @@ const NotesSlice = createSlice({
     toggleArchived: (state) => {
       state.showArchived = !state.showArchived;
     },
+    resetNoteMessage: (state) => {
+      state.currentMessage = "";
+    },
   },
   extraReducers(builder) {
     builder.addCase(addNote.fulfilled, (state, action) => {
       if (action.payload.data.success) state.success = true;
+    });
+    builder.addCase(addNote.rejected, (state) => {
+      state.currentMessage = "New notes must have title and description";
     });
     builder.addCase(getAllUserNotes.fulfilled, (state, action) => {
       if (action.payload.data.success)
@@ -92,6 +100,6 @@ const NotesSlice = createSlice({
   },
 });
 
-export const { toggleArchived } = NotesSlice.actions;
+export const { toggleArchived, resetNoteMessage } = NotesSlice.actions;
 
 export default NotesSlice.reducer;
