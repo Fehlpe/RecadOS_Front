@@ -7,6 +7,7 @@ class UsersDataService {
       username: user.username,
       email: user.email,
       password: user.password,
+      password2: user.password2,
     });
   }
 

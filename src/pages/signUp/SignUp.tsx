@@ -2,17 +2,23 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/modules/hooks";
-import { addUser, resetChangeLog } from "../../store/modules/users/UsersSlice";
+import {
+  addUser,
+  resetChangeLog,
+  resetMessage,
+} from "../../store/modules/users/UsersSlice";
 import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [username, setUsername] = useState("");
 
   const navigate = useNavigate();
 
-  let changeLog = useAppSelector((state) => state.users.changeLog);
+  const changeLog = useAppSelector((state) => state.users.changeLog);
+  const currentMessage = useAppSelector((state) => state.users.currentMessage);
   const isLogged = sessionStorage.getItem("logged");
 
   const dispatch = useAppDispatch();
@@ -22,6 +28,7 @@ function SignUp() {
       addUser({
         email,
         password,
+        password2,
         username,
       })
     );
@@ -33,8 +40,9 @@ function SignUp() {
 
   useEffect(() => {
     if (changeLog) {
-      dispatch(resetChangeLog());
       navigate("/");
+      dispatch(resetChangeLog());
+      dispatch(resetMessage());
     }
   }, [changeLog]);
 
@@ -49,6 +57,40 @@ function SignUp() {
             Sign up your account
           </h2>
         </div>
+        {currentMessage.length > 0 && (
+          <div
+            id="alert-additional-content-1"
+            className="p-4 mb-4 flex justify-between text-red-900 border border-red-300 rounded-lg bg-red-50 "
+            role="alert"
+          >
+            <div className="flex items-center">
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span className="sr-only">Error</span>
+              <h3 className=" text-base font-medium">{currentMessage}</h3>
+            </div>
+            <button
+              type="button"
+              className="text-red-900 mt-2 bg-transparent border border-red-900 hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:hover:bg-red-400 dark:border-red-400 dark:text-red-400 dark:hover:text-white dark:focus:ring-red-800"
+              data-dismiss-target="#alert-additional-content-1"
+              aria-label="Close"
+              onClick={() => dispatch(resetMessage())}
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
         <div className="mt-8 space-y-6">
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="-space-y-px rounded-md shadow-sm">
@@ -106,6 +148,7 @@ function SignUp() {
                 name="password2"
                 type="password"
                 required
+                onChange={(e) => setPassword2(e.target.value)}
                 className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
                 placeholder="Confirm your password"
               />
@@ -132,7 +175,7 @@ function SignUp() {
 
           <div className="flex items-center justify-center">
             <div className="text-sm">
-              <Link to="/">
+              <Link to="/" onClick={() => dispatch(resetMessage())}>
                 <p className="font-medium text-red-600 hover:text-red-500">
                   Already have an account? Sign in now!
                 </p>

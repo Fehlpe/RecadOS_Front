@@ -23,6 +23,20 @@ export const updateNote = createAsyncThunk(
   }
 );
 
+export const archiveNote = createAsyncThunk(
+  "user/notes/archive",
+  async (archiveNewNote: any) => {
+    return NotesInstance.archive(archiveNewNote);
+  }
+);
+
+export const unarchiveNote = createAsyncThunk(
+  "user/notes/unarchive",
+  async (unarchiveNewNote: any) => {
+    return NotesInstance.unarchive(unarchiveNewNote);
+  }
+);
+
 export const deleteNote = createAsyncThunk(
   "/users/notes/delete",
   async (id: string) => {
@@ -30,14 +44,23 @@ export const deleteNote = createAsyncThunk(
   }
 );
 
+export const searchNote = createAsyncThunk(
+  "/users/notes/search",
+  async (searchNewNote: any) => {
+    return NotesInstance.search(searchNewNote);
+  }
+);
+
 interface NoteSliceState {
   userNotes: Note[];
   success: boolean;
+  showArchived: boolean;
 }
 
 const initialState: NoteSliceState = {
   userNotes: [],
   success: false,
+  showArchived: false,
 };
 
 const NotesSlice = createSlice({
@@ -45,6 +68,9 @@ const NotesSlice = createSlice({
   initialState,
   reducers: {
     resetState: () => initialState,
+    toggleArchived: (state) => {
+      state.showArchived = !state.showArchived;
+    },
   },
   extraReducers(builder) {
     builder.addCase(addNote.fulfilled, (state, action) => {
@@ -54,7 +80,18 @@ const NotesSlice = createSlice({
       if (action.payload.data.success)
         state.userNotes = action.payload.data.data;
     });
+    builder.addCase(archiveNote.fulfilled, (state, action) => {
+      state.userNotes = action.payload.data.data;
+    });
+    builder.addCase(unarchiveNote.fulfilled, (state, action) => {
+      state.userNotes = action.payload.data.data;
+    });
+    builder.addCase(searchNote.fulfilled, (state, action) => {
+      state.userNotes = action.payload.data.data;
+    });
   },
 });
+
+export const { toggleArchived } = NotesSlice.actions;
 
 export default NotesSlice.reducer;

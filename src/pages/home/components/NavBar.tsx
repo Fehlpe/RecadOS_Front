@@ -10,8 +10,10 @@ const NavBar: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(logCheck);
-    if (!logCheck) navigate("/");
+    if (!logCheck) {
+      sessionStorage.removeItem("logged");
+      navigate("/");
+    }
   }, [logCheck]);
 
   function removeLoggedUser() {
