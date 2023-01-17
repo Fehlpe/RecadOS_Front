@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { useAppDispatch } from "../../../store/modules/hooks";
 import {
   addNote,
@@ -12,6 +12,8 @@ interface InputNoteProps {
 const InputNote: React.FC<InputNoteProps> = ({ loggedUser }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const titleRef = useRef(null);
+  const descRef = useRef(null);
 
   const dispatch = useAppDispatch();
 
@@ -19,6 +21,12 @@ const InputNote: React.FC<InputNoteProps> = ({ loggedUser }) => {
     dispatch(addNote({ title, description, userEmail: loggedUser })).then(
       () => {
         dispatch(getAllUserNotes(loggedUser));
+        setTitle("");
+        setDescription("");
+        //@ts-ignore
+        titleRef.current.value = "";
+        //@ts-ignore
+        descRef.current.value = "";
       }
     );
   }
@@ -37,6 +45,7 @@ const InputNote: React.FC<InputNoteProps> = ({ loggedUser }) => {
             type="text"
             name="title"
             id="title"
+            ref={titleRef}
             onChange={(e) => setTitle(e.target.value)}
             className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-red-500 focus:ring-red-500 sm:text-sm"
             placeholder="New title..."
@@ -56,6 +65,7 @@ const InputNote: React.FC<InputNoteProps> = ({ loggedUser }) => {
             type="text"
             name="desc"
             id="desc"
+            ref={descRef}
             onChange={(e) => setDescription(e.target.value)}
             className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-red-500 focus:ring-red-500 sm:text-sm"
             placeholder="New description..."
