@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch } from "../../../store/modules/hooks";
 import {
-  deleteNote,
   getAllUserNotes,
   updateNote,
 } from "../../../store/modules/notes/NotesSlice";
@@ -36,6 +35,8 @@ const EditModal: React.FC<EditModalProps> = ({
     )
       .then(() => dispatch(getAllUserNotes(loggedUser)))
       .then(() => onClose());
+    setNewDescription("");
+    setNewTitle("");
   }
 
   const dispatch = useAppDispatch();
