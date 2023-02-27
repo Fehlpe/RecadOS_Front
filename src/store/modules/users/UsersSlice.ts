@@ -39,6 +39,7 @@ const UsersSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       if (action.payload.data.success) {
         state.logged = true;
+        sessionStorage.setItem("logged", action.payload.data.data.userId);
       }
     });
     builder.addCase(loginUser.rejected, (state, action) => {

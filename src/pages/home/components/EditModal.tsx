@@ -28,7 +28,7 @@ const EditModal: React.FC<EditModalProps> = ({
   function editNoteById(NoteId: string) {
     dispatch(
       updateNote({
-        id: NoteId,
+        noteId: id,
         title: newTitle,
         description: newDescription,
       })

@@ -1,7 +1,7 @@
 export default interface Note {
-  userEmail: string;
-  id?: string;
-  title: string;
-  description: string;
-  archived?: boolean;
+  noteId?: string;
+  noteTitle: string;
+  noteDescription: string;
+  noteArchived?: boolean;
+  userId: string;
 }

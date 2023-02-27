@@ -18,17 +18,21 @@ const InputNote: React.FC<InputNoteProps> = ({ loggedUser }) => {
   const dispatch = useAppDispatch();
 
   function addNewNote() {
-    dispatch(addNote({ title, description, userEmail: loggedUser })).then(
-      () => {
-        dispatch(getAllUserNotes(loggedUser));
-        setTitle("");
-        setDescription("");
-        //@ts-ignore
-        titleRef.current.value = "";
-        //@ts-ignore
-        descRef.current.value = "";
-      }
-    );
+    dispatch(
+      addNote({
+        noteTitle: title,
+        noteDescription: description,
+        userId: loggedUser,
+      })
+    ).then(() => {
+      dispatch(getAllUserNotes(loggedUser));
+      setTitle("");
+      setDescription("");
+      //@ts-ignore
+      titleRef.current.value = "";
+      //@ts-ignore
+      descRef.current.value = "";
+    });
   }
 
   return (

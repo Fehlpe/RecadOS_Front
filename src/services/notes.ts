@@ -4,32 +4,32 @@ import { api } from "./api";
 class NotesDataService {
   async create(note: Note) {
     return await api.post("/users/notes", {
-      userEmail: note.userEmail,
-      title: note.title,
-      description: note.description,
+      title: note.noteTitle,
+      description: note.noteDescription,
+      userId: note.userId,
     });
   }
 
   async getAllUserNotes(loggedUser: string) {
-    return await api.get(`/users/notes?userEmail=${loggedUser}`);
+    return await api.get(`/users/notes?userId=${loggedUser}`);
   }
 
   async update(newNote: any) {
-    return await api.put(`/users/notes/${newNote.id}`, {
-      title: newNote.title,
-      description: newNote.description,
+    return await api.put(`/users/notes/${newNote.noteId}`, {
+      noteTitle: newNote.title,
+      noteDescription: newNote.description,
     });
   }
 
   async archive(archiveNewNote: any) {
     return await api.put(
-      `/${archiveNewNote.userEmail}/notes/${archiveNewNote.id}/archive`
+      `/${archiveNewNote.userId}/notes/${archiveNewNote.noteId}/archive`
     );
   }
 
   async unarchive(unarchiveNewNote: any) {
     return await api.put(
-      `/${unarchiveNewNote.userEmail}/notes/${unarchiveNewNote.id}/unarchive`
+      `/${unarchiveNewNote.userId}/notes/${unarchiveNewNote.noteId}/unarchive`
     );
   }
 
@@ -39,7 +39,7 @@ class NotesDataService {
 
   async search(searchNewNote: any) {
     return await api.get(
-      `/${searchNewNote.userEmail}/notes/search?query=${searchNewNote.title}`
+      `/${searchNewNote.userId}/notes/search?query=${searchNewNote.title}`
     );
   }
 }

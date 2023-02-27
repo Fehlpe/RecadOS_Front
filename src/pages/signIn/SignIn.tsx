@@ -31,7 +31,6 @@ function SignIn() {
 
   useEffect(() => {
     if (logCheck) {
-      sessionStorage.setItem("logged", email);
       navigate("/home");
     }
   }, [logCheck]);

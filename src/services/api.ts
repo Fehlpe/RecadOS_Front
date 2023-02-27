@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://recados-api.vercel.app",
+  baseURL: "https://recad-os-db.vercel.app",
   headers: {
     "Content-type": "application/json",
   },

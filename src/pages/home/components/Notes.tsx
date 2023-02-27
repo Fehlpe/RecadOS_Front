@@ -27,8 +27,8 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
   function archiveOneNote(id: string, isLogged: string) {
     dispatch(
       archiveNote({
-        userEmail: isLogged,
-        id,
+        userId: isLogged,
+        noteId: id,
       })
     );
   }
@@ -36,8 +36,8 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
   function unarchiveOneNote(id: string, isLogged: string) {
     dispatch(
       unarchiveNote({
-        id,
-        userEmail: isLogged,
+        noteId: id,
+        userId: isLogged,
       })
     );
   }
@@ -45,38 +45,39 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
   return (
     <>
       {userNotes.map((value) => {
+        console.log(value);
         if (showArchived) {
           return (
             <div
-              id={value.id}
-              key={value.id}
+              id={value.noteId}
+              key={value.noteId}
               className="w-full h-64 flex flex-col justify-between dark:bg-gray-800 bg-white dark:border-gray-700 rounded-lg border border-gray-400 mb-6 py-5 px-4"
             >
               <div>
                 <h4 className="text-gray-800 dark:text-gray-100 font-bold mb-3">
-                  {value.title}
+                  {value.noteTitle}
                 </h4>
                 <p className="text-gray-800 dark:text-gray-100 text-sm">
-                  {value.description}
+                  {value.noteDescription}
                 </p>
               </div>
               <div>
                 <div className="flex items-center justify-between text-gray-800 dark:text-gray-100">
                   <button
                     onClick={() => {
-                      value.archived
-                        ? unarchiveOneNote(value.id!, isLogged!)
-                        : archiveOneNote(value.id!, isLogged!);
+                      value.noteArchived
+                        ? unarchiveOneNote(value.noteId!, isLogged!)
+                        : archiveOneNote(value.noteId!, isLogged!);
                     }}
                     className="h-12 self-end text-sm font-semibold lg:text-base text-white  text-center border border-solid border-red-600 rounded hover:border-red-500 hover:bg-red-500 px-5 transition-colors duration-300 mt-1 md:mt-0 md:ml-1"
                   >
-                    {value.archived && "UNARCHIVE"}
-                    {!value.archived && "ARCHIVE"}
+                    {value.noteArchived && "UNARCHIVE"}
+                    {!value.noteArchived && "ARCHIVE"}
                   </button>
                   <div className="flex items-center justify-between w-24">
                     <button
                       onClick={() => {
-                        setCurrentEditId(value.id!);
+                        setCurrentEditId(value.noteId!);
                         setShowEditModal(true);
                       }}
                     >
@@ -102,7 +103,7 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
 
                     <button
                       onClick={() => {
-                        setCurrentDeleteId(value.id!);
+                        setCurrentDeleteId(value.noteId!);
                         setShowDeleteModal(true);
                       }}
                     >
@@ -140,26 +141,26 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
               />
             </div>
           );
-        } else if (!value.archived) {
+        } else if (!value.noteArchived) {
           return (
             <div
-              id={value.id}
-              key={value.id}
+              id={value.noteId}
+              key={value.noteId}
               className="w-full h-64 flex flex-col justify-between dark:bg-gray-800 bg-white dark:border-gray-700 rounded-lg border border-gray-400 mb-6 py-5 px-4"
             >
               <div>
                 <h4 className="text-gray-800 dark:text-gray-100 font-bold mb-3">
-                  {value.title}
+                  {value.noteTitle}
                 </h4>
                 <p className="text-gray-800 dark:text-gray-100 text-sm">
-                  {value.description}
+                  {value.noteDescription}
                 </p>
               </div>
               <div>
                 <div className="flex items-center justify-between text-gray-800 dark:text-gray-100">
                   <button
                     onClick={() => {
-                      archiveOneNote(value.id!, isLogged!);
+                      archiveOneNote(value.noteId!, isLogged!);
                     }}
                     className="h-12 self-end text-sm font-semibold lg:text-base text-white  text-center border border-solid border-red-600 rounded hover:border-red-500 hover:bg-red-500 px-5 transition-colors duration-300 mt-1 md:mt-0 md:ml-1"
                   >
@@ -168,7 +169,7 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
                   <div className="flex items-center justify-between w-24">
                     <button
                       onClick={() => {
-                        setCurrentEditId(value.id!);
+                        setCurrentEditId(value.noteId!);
                         setShowEditModal(true);
                       }}
                     >
@@ -194,7 +195,7 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
 
                     <button
                       onClick={() => {
-                        setCurrentDeleteId(value.id!);
+                        setCurrentDeleteId(value.noteId!);
                         setShowDeleteModal(true);
                       }}
                     >

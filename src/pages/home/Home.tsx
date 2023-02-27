@@ -31,7 +31,7 @@ const Index = () => {
     dispatch(
       searchNote({
         title,
-        userEmail: isLogged,
+        userId: isLogged,
       })
     );
   }
