@@ -21,7 +21,7 @@ Clone o projeto
 Entre no diretório do projeto
 
 ```bash
-  cd recados-front
+  cd RecadOS_Front
 ```
 
 Instale as dependências
