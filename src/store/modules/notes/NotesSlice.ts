@@ -79,14 +79,13 @@ const NotesSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(addNote.fulfilled, (state, action) => {
-      if (action.payload.data.success) state.success = true;
+      if (action.payload.data.ok) state.success = true;
     });
     builder.addCase(addNote.rejected, (state) => {
       state.currentMessage = "New notes must have title and description";
     });
     builder.addCase(getAllUserNotes.fulfilled, (state, action) => {
-      if (action.payload.data.success)
-        state.userNotes = action.payload.data.data;
+      if (action.payload.data.ok) state.userNotes = action.payload.data.data;
     });
     builder.addCase(archiveNote.fulfilled, (state, action) => {
       state.userNotes = action.payload.data.data;

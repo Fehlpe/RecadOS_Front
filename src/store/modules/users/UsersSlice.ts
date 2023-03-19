@@ -37,7 +37,7 @@ const UsersSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      if (action.payload.data.success) {
+      if (action.payload.data.ok) {
         state.logged = true;
         sessionStorage.setItem("logged", action.payload.data.data.userId);
       }

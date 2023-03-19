@@ -3,7 +3,7 @@ import { api } from "./api";
 
 class NotesDataService {
   async create(note: Note) {
-    return await api.post("/users/notes", {
+    return await api.post("/note", {
       title: note.noteTitle,
       description: note.noteDescription,
       userId: note.userId,
@@ -11,11 +11,11 @@ class NotesDataService {
   }
 
   async getAllUserNotes(loggedUser: string) {
-    return await api.get(`/users/notes?userId=${loggedUser}`);
+    return await api.get(`/note/user?userId=${loggedUser}`);
   }
 
   async update(newNote: any) {
-    return await api.put(`/users/notes/${newNote.noteId}`, {
+    return await api.put(`/note/user/${newNote.noteId}`, {
       noteTitle: newNote.title,
       noteDescription: newNote.description,
     });
@@ -23,23 +23,23 @@ class NotesDataService {
 
   async archive(archiveNewNote: any) {
     return await api.put(
-      `/${archiveNewNote.userId}/notes/${archiveNewNote.noteId}/archive`
+      `/note/${archiveNewNote.userId}/${archiveNewNote.noteId}/archive`
     );
   }
 
   async unarchive(unarchiveNewNote: any) {
     return await api.put(
-      `/${unarchiveNewNote.userId}/notes/${unarchiveNewNote.noteId}/unarchive`
+      `/note/${unarchiveNewNote.userId}/${unarchiveNewNote.noteId}/unarchive`
     );
   }
 
   async delete(id: string) {
-    return await api.delete(`/users/notes/${id}`);
+    return await api.delete(`/note/user/${id}`);
   }
 
   async search(searchNewNote: any) {
     return await api.get(
-      `/${searchNewNote.userId}/notes/search?query=${searchNewNote.title}`
+      `/note/${searchNewNote.userId}/search?query=${searchNewNote.title}`
     );
   }
 }

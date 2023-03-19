@@ -42,10 +42,11 @@ const Notes: React.FC<NotesProps> = ({ loggedUser }) => {
     );
   }
 
+  console.log(userNotes);
+
   return (
     <>
       {userNotes.map((value) => {
-        console.log(value);
         if (showArchived) {
           return (
             <div
